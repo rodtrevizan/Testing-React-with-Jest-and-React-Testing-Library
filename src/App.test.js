@@ -38,4 +38,12 @@ test('disable button on first checkbox click and enable on second click', () => 
   // expect the button to enable if checkbox is unchecked
     fireEvent.click(checkbox);
     expect(colorButton).toBeEnabled();
+
+  // expect the button to turn gray if button is disabled
+    fireEvent.click(checkbox);
+    expect(colorButton).toHaveStyle( {backgroundColor: 'gray'});
+
+  // expect the button to turn red or blue if checkbox is unchecked
+    fireEvent.click(checkbox);
+    expect(colorButton).toHaveStyle( {backgroundColor: 'red' || 'blue'});
 })
