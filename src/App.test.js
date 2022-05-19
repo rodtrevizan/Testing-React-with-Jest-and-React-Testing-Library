@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
+import {replaceCamelWithSpaces} from './App';
 
 test('button has correct inicial color', () => {
   render(<App />);
@@ -47,3 +48,17 @@ test('disable button on first checkbox click and enable on second click', () => 
     fireEvent.click(checkbox);
     expect(colorButton).toHaveStyle( {backgroundColor: 'red' || 'blue'});
 })
+
+describe('Replace Camel With Spaces', () => {
+  test('Works for no inner capital letters', () => {
+    expect(replaceCamelWithSpaces('Red')).toBe('Red');
+  });
+
+  test('Works for one inner capital letter', () => {
+    expect(replaceCamelWithSpaces('RedGreen')).toBe('Red Green');
+  });
+    
+  test('Works for multiple inner capital letters', () => {
+    expect(replaceCamelWithSpaces('RedGreenBlue')).toBe('Red Green Blue');
+  });
+});
