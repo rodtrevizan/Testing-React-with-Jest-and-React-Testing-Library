@@ -2,14 +2,20 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
 import {replaceCamelWithSpaces} from './App';
 
+
 test('button has correct inicial color', () => {
-  render(<App />);
+  const { getByRole, debug } = render(<App />);
+ 
+  // To check what jest-dom is rendered, debug is always a good idea.
+  // And here you will see that button is rendering with style="background-color: gray;"
+  debug();
+
 
   // find an element with the role of button and text 'Change to Midnight Blue'
   const colorButton = screen.getByRole('button', { name: 'Change to Midnight Blue' });
 
   // expect the button to have the background red
-  expect(colorButton).toHaveStyle( {backgroundColor: 'MediumVioletRed'});
+  expect(colorButton).toHaveStyle('backgroundColor: MediumVioletRed');
 
   // click the button
   fireEvent.click(colorButton);
@@ -25,7 +31,7 @@ test('disable button on first checkbox click and enable on second click', () => 
   render(<App />);
 
   // expect the button starts out enabled
-    const colorButton = screen.getByRole('button', {  name: 'Change to Midnight Blue' });
+    const colorButton = screen.getByRole('button');
     expect(colorButton).toBeEnabled();
 
   // expect the checkbox starts out uncheked
@@ -42,11 +48,15 @@ test('disable button on first checkbox click and enable on second click', () => 
 
   // expect the button to turn gray if button is disabled, backgroundColor exact match not partial match
     fireEvent.click(checkbox);
-    expect(colorButton).toHaveStyle( {backgroundColor: 'gray' });
+    expect(colorButton).toHaveStyle( {backgroundColor: 'gray' }); // passes ok
+    expect(colorButton).toHaveStyle( {backgroundColor: 'fay' }); // passes but should not
+    expect(colorButton).toHaveStyle( {backgroundColor: 'dfhdhsdh' }); // passes but should not
+    expect(colorButton).toHaveStyle( {backgroundColor: 'red' }); // expected error
+    expect(colorButton).toHaveStyle( {backgroundColor: 'MidnightBlue' }); // expected error
 
   // expect the button to turn red or blue if checkbox is unchecked
     fireEvent.click(checkbox);
-    expect(colorButton).toHaveStyle( {backgroundColor: 'VioletRed'});
+    expect(colorButton).toHaveStyle('background-color: MediumVioletRed');
 })
 
 describe('Replace Camel With Spaces', () => {
